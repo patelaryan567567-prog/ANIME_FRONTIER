@@ -1,0 +1,2042 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+}
+
+.logo-font { font-family: 'Bangers', cursive; }
+
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Navigation */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 10000;
+}
+.dark .glass-nav {
+    background: rgba(9, 9, 11, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.poster-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: #18181b;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.anime-card:hover .poster-box {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px -10px rgba(255, 75, 43, 0.2);
+}
+
+.poster-box img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.anime-card:hover img { transform: scale(1.1); }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ff4b2b; border-radius: 10px; }
+
+/* Overlays */
+#suggestionsOverlay, #infoPageOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(35px);
+    z-index: 20000;
+    overflow-y: auto;
+    padding: 8rem 1.5rem 2rem;
+    display: none;
+}
+.dark #suggestionsOverlay, .dark #infoPageOverlay {
+    background: rgba(9, 9, 11, 0.98);
+}
+
+/* Hero Slider */
+.slider-container {
+    height: 400px;
+    border-radius: 2rem;
+    overflow: hidden;
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    .slider-container {
+        height: 600px;
+        border-radius: 3.5rem;
+    }
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out;
+    z-index: 1;
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+.slide-content {
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* AI Chat */
+#aiChatWindow {
+    max-height: 500px;
+    width: 320px;
+    bottom: 90px;
+    right: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5000;
+}
+#aiChatWindow.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Platform Pills */
+.platform-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 12px;
+    border: 2px solid;
+    border-radius: 1.25rem;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition: all .3s ease;
+    background: transparent;
+}
+
+.platform-pill:hover {
+    background: #ff4b2b;
+    color: #fff;
+    border-color: #ff4b2b;
+    transform: translateY(-2px);
+}
+
+/* Floating Animation */
+@keyframes botFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+}
+.bot-float { animation: botFloat 2s ease-in-out infinite; }
+
+.video-overlay {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+
+/* Watchlist Section */
+#watchlistSection {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.watchlist-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 75, 43, 0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    z-index: 10;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid white;
+}
+
+.watchlist-badge:hover {
+    transform: scale(1.2);
+    background: #ff2b00;
+}
+
+.watchlist-badge.added {
+    background: #10b981;
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.watchlist-empty {
+    text-align: center;
+    padding: 80px 20px;
+    background: rgba(255, 75, 43, 0.05);
+    border-radius: 2rem;
+    border: 2px dashed rgba(255, 75, 43, 0.3);
+}
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background: #10b981;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 10000;
+    animation: slideUp 0.3s ease;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Character Cards */
+.character-card img {
+    transition: transform 0.3s ease;
+}
+
+.character-card:hover img {
+    transform: scale(1.1);
+}
+
+.character-card:hover h4 {
+    color: #ff4b2b;
+}
+
+/* Episode Cards */
+.episode-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.episode-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.1);
+}
+
+/* Modal Animations */
+#seasonsModal, #episodesModal, #episodePlayerModal {
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Scrollbar for Modals */
+#seasonsList::-webkit-scrollbar,
+#episodesGrid::-webkit-scrollbar {
+    width: 6px;
+}
+
+#seasonsList::-webkit-scrollbar-thumb,
+#episodesGrid::-webkit-scrollbar-thumb {
+    background: #ff4b2b;
+    border-radius: 3px;
+}
+
+/* Rating Badge */
+.rating-badge {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: bold;
+    backdrop-filter: blur(4px);
+}
+
+/* Loading States */
+.loading-shimmer {
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.2) 50%, 
+        rgba(255,255,255,0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Hero Slide Dots */
+.hero-slide-dot {
+    transition: all 0.3s ease;
+}
+
+.hero-slide-dot.active-dot {
+    background: #ff4b2b !important;
+    transform: scale(1.2);
+}
+
+.hero-slide-dot:hover {
+    background: #ff4b2b;
+    transform: scale(1.1);
+}
+
+/* Hero Buttons */
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+    .hero-buttons {
+        gap: 8px;
+    }
+    
+    .hero-buttons button {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+/* Trailer Modal */
+#trailerModal iframe {
+    border-radius: 1.5rem;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    #trailerModal .relative {
+        border-radius: 1rem;
+    }
+}
+
+/* Hero Image Overlay */
+.slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(9, 9, 11, 0.9) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Hero Text Animations */
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide.active .slide-content {
+    animation: slideUpFade 0.7s ease-out;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.loading-pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Trailer Language Badge */
+
+
+/* Trailer Loading */
+.trailer-loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* Trailer Player Container */
+.trailer-player-container {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.trailer-player-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+/* Modal animations for selector modal */
+#modalContent {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+#selectorModal.hidden #modalContent {
+    transform: scale(0.95);
+    opacity: 0;
+}
+
+#selectorModal:not(.hidden) #modalContent {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Fix for AI chat window positioning */
+#aiChatWindow {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    max-height: 500px;
+    width: 320px;
+    z-index: 8500;
+}
+
+/* Ensure hero dots are visible */
+.hero-slide-dot.active-dot {
+    background: #ff4b2b !important;
+    transform: scale(1.3);
+}
+
+/* Episode player improvements */
+#episodePlayerModal {
+    animation: modalFadeIn 0.3s ease;
+}
+
+/* Responsive fixes */
+@media (max-width: 640px) {
+    #aiChatWindow {
+        width: calc(100vw - 40px);
+        right: 20px;
+        left: 20px;
+    }
+}
+/* Fix for modal overflow issues */
+body.modal-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* Ensure modal content is scrollable */
+#seasonsModal > div,
+#episodesModal > div,
+#selectorModal > div,
+#trailerModal > div {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Fix for selector modal */
+#selectorModal {
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Modal scrollbar styling */
+#seasonsList::-webkit-scrollbar,
+#episodesGrid::-webkit-scrollbar {
+    width: 6px;
+}
+
+#seasonsList::-webkit-scrollbar-thumb,
+#episodesGrid::-webkit-scrollbar-thumb {
+    background: #ff4b2b;
+    border-radius: 3px;
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Smooth modal transitions */
+.modal-transition {
+    transition: all 0.3s ease-in-out;
+}
+/* Episodes Page Styles */
+.episodes-page {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.season-section {
+    transition: all 0.3s ease;
+}
+
+.season-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 75, 43, 0.1);
+}
+
+.episode-item {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.episode-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.episode-number {
+    flex-shrink: 0;
+}
+
+/* Episode player styling */
+.episode-player {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+/* Responsive episodes page */
+@media (max-width: 768px) {
+    .episode-item {
+        padding: 12px;
+    }
+    
+    .episode-number {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+/* Loading animation for episodes */
+.episodes-loading {
+    animation: pulse 2s infinite;
+}
+
+/* Episode info styling */
+.episode-info {
+    background: rgba(255, 75, 43, 0.05);
+    border-left: 4px solid #ff4b2b;
+    padding: 15px;
+    border-radius: 0 10px 10px 0;
+    margin: 10px 0;
+}
+/* Episode Modal Title Fix */
+#episodePlayerTitle,
+#episodesModalTitle {
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    line-height: 1.2 !important;
+    max-height: 3.6em !important; /* For 2 lines */
+    overflow: hidden !important;
+}
+
+/* Episode Player Container Fix */
+#episodePlayerContainer {
+    position: relative;
+    background: #000;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin: 0;
+}
+
+/* Trailer Modal Fix */
+#trailerModal > div {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#ytPlayerContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #000;
+}
+
+#ytPlayerContainer iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+}
+
+/* Episode Cards Text Wrap */
+.episode-item h3,
+.episode-card h4 {
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Modal Header Fix */
+.modal-header {
+    position: relative;
+    padding-right: 3rem !important; /* Space for close button */
+}
+
+/* Responsive Episode Player */
+@media (max-width: 768px) {
+    #episodePlayerTitle {
+        font-size: 1.25rem !important;
+        max-height: 4.2em !important; /* 3 lines on mobile */
+    }
+    
+    #episodesModalTitle {
+        font-size: 1.5rem !important;
+        max-height: 4.2em !important;
+    }
+    
+    #trailerModal > div {
+        border-radius: 1rem !important;
+    }
+}
+
+/* Trailer Player Responsive */
+@media (max-width: 640px) {
+    #ytPlayerContainer iframe {
+        border-radius: 0.75rem;
+    }
+}
+
+/* Episode List Item Improvements */
+.episode-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.episode-item:hover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 75, 43, 0.05), transparent);
+    animation: slideShine 1.5s infinite;
+}
+
+@keyframes slideShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Close Button Positioning Fix */
+.modal-close-btn {
+    position: absolute !important;
+    top: 1.5rem !important;
+    right: 1.5rem !important;
+    z-index: 1000 !important;
+    background: rgba(0, 0, 0, 0.7) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.modal-close-btn:hover {
+    background: #ff4b2b !important;
+    transform: scale(1.1) !important;
+}
+/* Add to the end of Style.css */
+
+/* Episode Card Improvements */
+.episode-item {
+    padding: 16px !important;
+    border-radius: 1.5rem !important;
+    margin-bottom: 12px !important;
+    background: white !important;
+    border: 2px solid transparent !important;
+}
+
+.dark .episode-item {
+    background: #1a1a1a !important;
+}
+
+.episode-item:hover {
+    border-color: #ff4b2b !important;
+    transform: translateY(-4px) !important;
+    box-shadow: 0 10px 30px rgba(255, 75, 43, 0.2) !important;
+}
+
+/* Episode Image Container */
+.episode-item .relative {
+    width: 120px !important;
+    height: 150px !important;
+    flex-shrink: 0 !important;
+    border-radius: 1rem !important;
+    overflow: hidden !important;
+    border: 3px solid #ff4b2b20 !important;
+}
+
+.episode-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.5s ease !important;
+}
+
+.episode-item:hover img {
+    transform: scale(1.1) !important;
+}
+
+/* Episode Title Fix */
+.episode-item h3 {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 8px !important;
+    line-height: 1.4 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    min-height: 44px !important;
+}
+
+.dark .episode-item h3 {
+    color: white !important;
+}
+
+/* Episode Number Badge */
+.episode-number-badge {
+    background: #ff4b2b !important;
+    color: white !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    padding: 4px 10px !important;
+    border-radius: 8px !important;
+    display: inline-block !important;
+    margin-bottom: 8px !important;
+}
+
+/* Episode Info Text */
+.episode-info-text {
+    font-size: 12px !important;
+    color: #666 !important;
+    margin-bottom: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.dark .episode-info-text {
+    color: #aaa !important;
+}
+
+/* Watch Trailer Button Fix */
+.watch-trailer-btn {
+    background: #ff4b2b !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    width: 100% !important;
+    justify-content: center !important;
+    margin-top: 8px !important;
+}
+
+.watch-trailer-btn:hover {
+    background: #ff2b00 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(255, 75, 43, 0.3) !important;
+}
+
+/* Episode Buttons Container */
+.episode-buttons {
+    display: flex !important;
+    gap: 10px !important;
+    margin-top: 12px !important;
+}
+
+.episode-buttons button {
+    flex: 1 !important;
+    padding: 10px 16px !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    border: 2px solid transparent !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+}
+
+.episode-buttons button:first-child {
+    background: #ff4b2b !important;
+    color: white !important;
+}
+
+.episode-buttons button:first-child:hover {
+    background: #ff2b00 !important;
+    transform: translateY(-2px) !important;
+}
+
+.episode-buttons button:last-child {
+    background: transparent !important;
+    color: #ff4b2b !important;
+    border-color: #ff4b2b !important;
+}
+
+.episode-buttons button:last-child:hover {
+    background: #ff4b2b !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Episode Player Modal Fix */
+#episodePlayerModal > div {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+}
+
+#episodePlayerTitle {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 10px !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+#episodePlayerDesc {
+    font-size: 0.9rem !important;
+    line-height: 1.4 !important;
+    color: #666 !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+.dark #episodePlayerDesc {
+    color: #aaa !important;
+}
+
+/* Episode Grid Improvements */
+#episodesGrid {
+    gap: 16px !important;
+}
+
+/* Episode Card in Grid */
+.episode-card {
+    background: white !important;
+    border-radius: 1.25rem !important;
+    padding: 16px !important;
+    border: 2px solid #f0f0f0 !important;
+    transition: all 0.3s ease !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.dark .episode-card {
+    background: #1a1a1a !important;
+    border-color: #333 !important;
+}
+
+.episode-card:hover {
+    border-color: #ff4b2b !important;
+    transform: translateY(-4px) !important;
+    box-shadow: 0 10px 25px rgba(255, 75, 43, 0.15) !important;
+}
+
+.episode-card h4 {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    line-height: 1.4 !important;
+    margin-bottom: 8px !important;
+    color: #1a1a1a !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    min-height: 40px !important;
+}
+
+.dark .episode-card h4 {
+    color: white !important;
+}
+
+.episode-card .episode-number {
+    font-size: 12px !important;
+    color: #ff4b2b !important;
+    font-weight: 900 !important;
+    margin-bottom: 4px !important;
+}
+
+/* Trailer Button in Modal */
+#playTrailerBtn {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c) !important;
+    border: none !important;
+    padding: 16px !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+}
+
+#playTrailerBtn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(255, 75, 43, 0.4) !important;
+}
+
+/* Episode Player Button */
+#playEpisodeBtn {
+    background: linear-gradient(135deg, #2196F3, #21CBF3) !important;
+    border: none !important;
+    padding: 16px !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+}
+
+#playEpisodeBtn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4) !important;
+}
+
+/* Responsive Episode Layout */
+@media (max-width: 768px) {
+    .episode-item {
+        flex-direction: column !important;
+    }
+    
+    .episode-item .relative {
+        width: 100% !important;
+        height: 200px !important;
+        margin-bottom: 16px !important;
+    }
+    
+    .episode-item h3 {
+        font-size: 18px !important;
+        min-height: auto !important;
+    }
+    
+    .episode-buttons {
+        flex-direction: column !important;
+    }
+    
+    .episode-buttons button {
+        width: 100% !important;
+    }
+    
+    .watch-trailer-btn {
+        padding: 14px !important;
+        font-size: 16px !important;
+    }
+}
+/* Add to the end of Style.css */
+
+/* Fix episode title line clamping */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.leading-snug {
+    line-height: 1.375;
+}
+
+.min-h-\[3em\] {
+    min-height: 3em;
+}
+
+/* Improve episode item layout */
+.episode-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.dark .episode-item {
+    background: #1a1a1a;
+}
+
+.episode-item:hover {
+    border-color: #ff4b2b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 75, 43, 0.1);
+}
+
+/* Fix episode image container */
+.episode-item .relative {
+    flex-shrink: 0;
+    width: 96px;
+    height: 128px;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 2px solid rgba(255, 75, 43, 0.1);
+}
+
+@media (min-width: 768px) {
+    .episode-item .relative {
+        width: 112px;
+        height: 144px;
+    }
+}
+
+/* Fix episode buttons */
+.episode-item button {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+/* Watch Episode button */
+.episode-item button:first-child {
+    background: #ff4b2b !important;
+    color: white !important;
+}
+
+.episode-item button:first-child:hover {
+    background: #ff2b00 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Watch Trailer button */
+.episode-item button:last-child {
+    background: rgba(255, 75, 43, 0.1) !important;
+    color: #ff4b2b !important;
+}
+
+.dark .episode-item button:last-child {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+}
+
+.episode-item button:last-child:hover {
+    background: #ff4b2b !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Episode number badge */
+.episode-number-badge {
+    background: #ff4b2b !important;
+    color: white !important;
+    font-size: 0.75rem !important;
+    font-weight: 900 !important;
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 0.5rem !important;
+    display: inline-block !important;
+    margin-right: 0.5rem !important;
+}
+
+/* Fix trailer button in modal */
+#playTrailerBtn, #playEpisodeBtn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.75rem !important;
+    padding: 1rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    border: none !important;
+    border-radius: 1rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+}
+
+#playTrailerBtn:hover, #playEpisodeBtn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(255, 75, 43, 0.3) !important;
+}
+
+/* Episode player modal improvements */
+#episodePlayerTitle {
+    font-size: 1.5rem !important;
+    font-weight: 900 !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.5rem !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    color: white !important;
+}
+
+#episodePlayerDesc {
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 640px) {
+    .episode-item {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .episode-item .relative {
+        width: 100% !important;
+        height: 180px !important;
+    }
+    
+    .episode-item h3 {
+        font-size: 1rem !important;
+        min-height: auto !important;
+    }
+    
+    .episode-item button {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    
+    #episodePlayerTitle {
+        font-size: 1.25rem !important;
+    }
+    
+    #playTrailerBtn, #playEpisodeBtn {
+        padding: 0.875rem !important;
+        font-size: 0.75rem !important;
+    }
+}
+
+/* Fix episode grid in modal */
+#episodesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+/* Episode card improvements */
+.episode-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dark .episode-card {
+    background: #1a1a1a;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.episode-card:hover {
+    border-color: #ff4b2b;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(255, 75, 43, 0.15);
+}
+
+.episode-card h4 {
+    font-size: 0.875rem;
+    font-weight: 800;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.8em;
+}
+
+.dark .episode-card h4 {
+    color: white;
+}
+
+.episode-card p {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: auto;
+}
+
+.dark .episode-card p {
+    color: #aaa;
+}
+
+/* Season section improvements */
+.season-section {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark .season-section {
+    background: rgba(26, 26, 26, 0.5);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.season-section h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+}
+
+.dark .season-section h2 {
+    color: white;
+}
+
+/* Button group improvements */
+.button-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.button-group button {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Fix for long titles in all contexts */
+.long-title-fix {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    max-height: 2.8em;
+}
+
+/* Trailer button improvements */
+.trailer-button-full {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    padding: 0.75rem 1.5rem !important;
+    background: #ff4b2b !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 0.75rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+    max-width: 200px !important;
+    margin: 0 auto !important;
+}
+
+.trailer-button-full:hover {
+    background: #ff2b00 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(255, 75, 43, 0.3) !important;
+}
+
+/* Episode duration badge */
+.episode-duration {
+    background: rgba(0, 0, 0, 0.1);
+    color: #666;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.dark .episode-duration {
+    background: rgba(255, 255, 255, 0.1);
+    color: #aaa;
+}
+/* Error States */
+.error-state {
+    animation: errorPulse 2s infinite;
+}
+
+@keyframes errorPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Retry Button */
+.retry-button {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c) !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.retry-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3) !important;
+}
+
+/* Fallback Content Animation */
+.fallback-content {
+    animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Rating Badge for Anime Cards */
+.rating-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-weight: 900;
+    font-size: 12px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+    border: 2px solid #ff4b2b;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.rating-badge:hover {
+    background: rgba(255, 75, 43, 0.9);
+    transform: scale(1.05);
+}
+
+.rating-score {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #ffb400;
+    font-weight: 900;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.rating-score::before {
+    content: '★';
+    color: #ffb400;
+    font-size: 10px;
+}
+
+/* Movie Rating Badge */
+.rating-badge-movie {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 14px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 55px;
+    border: 2px solid #ffb400;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.rating-score-movie {
+    color: #ffb400;
+    font-weight: 900;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.rating-score-movie::before {
+    content: '★';
+    color: #ffb400;
+    font-size: 12px;
+}
+
+/* Hero Rating Badge */
+.hero-rating-badge {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 900;
+    font-size: 18px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    border: 3px solid #ffb400;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.hero-rating-score {
+    color: #ffb400;
+    font-weight: 900;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hero-rating-score::before {
+    content: '★';
+    color: #ffb400;
+    font-size: 16px;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7),
+                    0 0 10px rgba(255, 180, 0, 0.2);
+    }
+    to {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7),
+                    0 0 20px rgba(255, 180, 0, 0.4),
+                    0 0 30px rgba(255, 180, 0, 0.2);
+    }
+}
+
+/* Rating colors based on score */
+.rating-badge.excellent { border-color: #00ff88; }
+.rating-score.excellent { color: #00ff88; }
+.rating-score.excellent::before { color: #00ff88; }
+
+.rating-badge.good { border-color: #4CAF50; }
+.rating-score.good { color: #4CAF50; }
+.rating-score.good::before { color: #4CAF50; }
+
+.rating-badge.average { border-color: #FF9800; }
+.rating-score.average { color: #FF9800; }
+.rating-score.average::before { color: #FF9800; }
+
+.rating-badge.poor { border-color: #FF5722; }
+.rating-score.poor { color: #FF5722; }
+.rating-score.poor::before { color: #FF5722; }
+
+/* Responsive Rating Badges */
+@media (max-width: 768px) {
+    .rating-badge {
+        top: 8px;
+        right: 8px;
+        padding: 4px 8px;
+        font-size: 10px;
+        min-width: 40px;
+    }
+    
+    .rating-badge-movie {
+        top: 8px;
+        left: 8px;
+        padding: 6px 10px;
+        font-size: 12px;
+        min-width: 50px;
+    }
+    
+    .hero-rating-badge {
+        top: 12px;
+        right: 12px;
+        padding: 8px 12px;
+        font-size: 14px;
+        min-width: 60px;
+    }
+}
+
+/* Special effects on hover */
+.poster-box:hover .rating-badge {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 75, 43, 0.3);
+}
+
+/* Ensure rating is always on top */
+.rating-badge,
+.rating-badge-movie,
+.hero-rating-badge {
+    z-index: 10;
+}
+/* Search toggle animation */
+#searchBox {
+  animation: searchFade 0.2s ease;
+}
+
+@keyframes searchFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Profile Styles */
+#profileIcon {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    color: white;
+    font-weight: 900;
+    transition: all 0.3s ease;
+}
+
+#profileIcon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 75, 43, 0.4);
+}
+
+.profile-dropdown {
+    animation: dropdownSlide 0.2s ease;
+    transform-origin: top right;
+}
+
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Login Modal Styles */
+#loginModal {
+    animation: modalFadeIn 0.3s ease;
+}
+
+.login-input {
+    transition: all 0.3s ease;
+}
+
+.login-input:focus {
+    border-color: #ff4b2b;
+    box-shadow: 0 0 0 3px rgba(255, 75, 43, 0.1);
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+input[type="checkbox"]:checked {
+    background: #ff4b2b;
+}
+
+input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dark input[type="checkbox"] {
+    background: #333;
+}
+
+/* User activity indicator */
+.user-active {
+    position: relative;
+}
+
+.user-active::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    border: 2px solid white;
+    animation: pulse 2s infinite;
+}
+
+/* Profile settings */
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: white;
+    font-weight: 900;
+    margin: 0 auto;
+}
+
+/* Watch history */
+.watch-history-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.watch-history-item:hover {
+    background: rgba(255, 75, 43, 0.1);
+    transform: translateX(5px);
+}
+
+/* Animation for opening sequence */
+.opening-sequence {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #09090b;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeOut 0.5s ease 3s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* Opening logo animation */
+.opening-logo {
+    animation: logoReveal 2s ease;
+}
+
+@keyframes logoReveal {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Loading dots */
+.loading-dots {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.loading-dot {
+    width: 12px;
+    height: 12px;
+    background: #ff4b2b;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out;
+}
+
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { 
+        transform: scale(0);
+    } 
+    40% { 
+        transform: scale(1.0);
+    }
+}
+/* Page hide/show ke liye */
+body.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    overflow: hidden !important;
+}
+
+body:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease;
+}
+.text-red {
+  color: red;
+}
+
+.text-blue {
+  color: blue;
+}
+/* Season Navigation Styles */
+.season-nav-btn {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.season-nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 75, 43, 0.2);
+}
+
+.season-nav-btn.active {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    color: white;
+    border-color: transparent;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 75, 43, 0.3);
+}
+
+#seasonIndicator {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 5;
+}
+
+/* Season sections with scroll margin */
+.season-section {
+    scroll-margin-top: 140px; /* Adjust based on your header height */
+}
+
+/* Season navigation sticky positioning */
+#seasonNav {
+    position: sticky;
+    top: 100px; /* Adjust based on your header height */
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark #seasonNav {
+    background: rgba(9, 9, 11, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Scroll animation for season navigation */
+@keyframes seasonHighlight {
+    0% {
+        background: rgba(255, 75, 43, 0.1);
+    }
+    100% {
+        background: transparent;
+    }
+}
+
+.season-section.highlight {
+    animation: seasonHighlight 2s ease;
+}
+
+/* Responsive season navigation */
+@media (max-width: 640px) {
+    #seasonNav {
+        top: 30px;
+        padding: 12px;
+    }
+    
+    .season-nav-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .season-section {
+        scroll-margin-top: 120px;
+    }
+}
+
+/* Smooth scrolling for season navigation */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Active season indicator pulse */
+@keyframes pulseActive {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 75, 43, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(255, 75, 43, 0);
+    }
+}
+
+.season-nav-btn.active {
+    animation: pulseActive 2s infinite;
+}
+/* Season Navigation Styles */
+#seasonNav {
+    position: sticky !important;
+    top: 140px !important;
+    z-index: 100 !important;
+    backdrop-filter: blur(10px) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s ease !important;
+}
+
+.dark #seasonNav {
+    background: rgba(9, 9, 11, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.season-nav-btn {
+    position: relative !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    min-width: 60px !important;
+    padding: 8px 12px !important;
+}
+
+.season-nav-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(255, 75, 43, 0.2) !important;
+}
+
+.season-nav-btn.active {
+    background: linear-gradient(
+  135deg,
+  rgba(255, 123, 0, 0.6),
+  rgba(255, 75, 43, 0.6)
+) !important;
+    color: white !important;
+    border-color: transparent !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(255, 75, 43, 0.3) !important;
+}
+
+#seasonIndicator {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 5 !important;
+    height: 3px !important;
+    bottom: -1px !important;
+}
+
+/* Season sections with scroll margin */
+.season-section {
+    scroll-margin-top: 140px !important;
+}
+
+/* Fix for overlay scrolling */
+#infoPageOverlay {
+    height: 100vh !important;
+    overflow-y: auto !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+}
+
+/* Active season pulse animation */
+@keyframes pulseActive {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 75, 43, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(255, 75, 43, 0);
+    }
+}
+
+.season-nav-btn.active {
+    animation: pulseActive 2s infinite;
+}
+
+/* Responsive season navigation */
+@media (max-width: 768px) {
+    #seasonNav {
+        top: 30px !important;
+        padding: 10px !important;
+    }
+    
+    .season-nav-btn {
+        padding: 6px 10px !important;
+        font-size: 11px !important;
+        min-width: 50px !important;
+    }
+    
+    .season-section {
+        scroll-margin-top: 120px !important;
+    }
+}
+
+/* Make sure season navigation stays on top */
+.season-nav-container {
+    position: relative !important;
+    z-index: 1000 !important;
+}
+/* Info Page Overlay Fixes */
+#infoPageOverlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
+    z-index: 9999 !important;
+    padding: 2rem 1.5rem !important;
+}
+
+/* Ensure smooth scrolling */
+html, body {
+    scroll-behavior: smooth;
+}
+
+/* Fix for season navigation sticky */
+.sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+}
+/* Force search and suggestions to be on top of everything */
+#searchBox, #suggestionsOverlay, #animeSearch {
+    z-index: 10000 !important;
+}
+
+/* Ensure nothing overlaps */
+#infoPageOverlay, #selectorModal, #trailerModal, #episodePlayerModal,{
+    z-index: 2000!important;
+}
+/* Nav bar को सदैव दिखाएं */
+nav.glass-nav {
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 20000 !important;
+}
+
+/* Search box को nav के नीचे */
+#searchBox {
+    position: fixed;
+    top: 70px !important; /* Nav bar height के according */
+    left: 0;
+    width: 100%;
+    z-index: 20001 !important;
+    background: inherit;
+    padding: 10px 1rem;
+}
+
+/* Suggestions को search box के नीचे */
+#suggestionsOverlay {
+    position: fixed;
+    top: 130px !important; /* Nav + search box height */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20000 !important;
+    padding-top: 20px;
+}
+#loginModal {
+    z-index: 99999!important;
+}

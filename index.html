@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+ 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeFrontier💀 | Elite Anime Portal</title>
+
+    <!-- Favicon Links -->
+    <!-- The primary logo is now set to android-chrome-512x512.png for various contexts. -->
+    
+    <!-- Apple Touch Icon (for iOS devices) - already using your specified image -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/android-chrome-512x512.png">
+    
+    <!-- Web App Manifest (defines icons for web apps, usually references your image) -->
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Mask Icon (for Safari Pinned Tabs) - requires an SVG file, cannot use a PNG. 
+         Keeping the original as it's a different format requirement. -->
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ff4b2b"> 
+    
+    <!-- Main Favicon for browsers - now using your specified PNG image -->
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    
+    <!-- The old 'shortcut icon' is replaced by the more modern 'link rel="icon"' above. -->
+    
+    <!-- Meta tags for browser/OS theme colors -->
+    <meta name="msapplication-TileColor" content="#ff4b2b"> 
+    <meta name="theme-color" content="#ffffff"> 
+    <!-- End Favicon Links -->
+
+</head>
+</html>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#ff4b2b',
+                        accent: '#ffb400',
+                        zincDark: '#09090b',
+                        cardBg: '#121214'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+<body
+class="bg-white dark:bg-zincDark dark:text-zinc-100 transition-colors duration-300 hidden">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full glass-nav z-[10000]">
+        <div class="max-w-7xl mx-auto px-4 h-16 md:h-20 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-8 h-8 md:w-10 md:h-10 bg-brand rounded-lg flex justify-center items-center text-white shadow-lg">
+                    <i class="fas fa-play text-[10px] md:text-xs"></i>
+                </div>
+                <span class="text-xl md:text-3xl logo-font tracking-wider text-brand uppercase">
+                    ANIME<span class="text-zinc-900 dark:text-white transition-colors">FRONTIER</span>
+                </span>
+            </div>
+
+<!-- SEARCH ICON + HIDDEN SEARCH BAR -->
+<div id="searchWrapper" class="relative">
+  
+  <!-- Search Icon Button -->
+  <button id="searchIconBtn"
+    class="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shadow-sm">
+    <i class="fas fa-search text-xs md:text-sm"></i>
+  </button>
+
+  <!-- Hidden Search Input -->
+  <div id="searchBox"
+    class="fixed top-20 left-0 w-full px-4 hidden z-[15000]">
+    <input
+      id="animeSearch"
+      type="text"
+      placeholder="Search anime..."
+      autocomplete="off"
+      class="w-full bg-zinc-100 dark:bg-zinc-900 border border-brand/40 rounded-xl py-3 px-4 text-sm outline-none font-bold dark:text-white shadow-xl">
+  </div>
+
+</div>
+
+            <button id="themeToggle" class="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex justify-center items-center shrink-0 shadow-sm">
+                <i id="themeIcon" class="fas fa-moon text-xs md:text-sm"></i>
+            </button>
+            <!-- Profile Icon -->
+<div class="relative group" id="profileSection" style="display: none;">
+    <button id="profileIcon" class="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-brand text-white flex justify-center items-center shrink-0 shadow-sm font-bold text-xs md:text-sm">
+        <!-- Initial will be displayed here -->
+    </button>
+    <div class="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-zinc-800 rounded-xl shadow-2xl p-4 hidden group-hover:block z-[10001]">
+        <div id="profileInfo" class="mb-4">
+            <p class="text-xs font-bold text-zinc-500 dark:text-zinc-400 mb-1">Logged in as</p>
+            <p id="profileName" class="font-bold text-zinc-900 dark:text-white text-sm"></p>
+            <p id="profileEmail" class="text-xs text-zinc-500 dark:text-zinc-400 truncate"></p>
+        </div>
+        <div class="space-y-2">
+            <button onclick="openProfileSettings()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                <i class="fas fa-user-cog"></i> Profile Settings
+            </button>
+            <button onclick="viewWatchHistory()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                <i class="fas fa-history"></i> Watch History
+            </button>
+            <button onclick="logout()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-brand hover:text-white text-red-500 flex items-center gap-2 mt-4 border-t border-zinc-200 dark:border-zinc-700 pt-3">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </button>
+        </div>
+    </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- SEARCH SUGGESTIONS OVERLAY -->
+    <div id="suggestionsOverlay">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-8 border-b dark:border-zinc-800 pb-4">
+                <h2 class="text-xl md:text-2xl font-black uppercase italic tracking-widest"><span class="text-brand">Search</span> Results</h2>
+                <button onclick="closeSearch()" class="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center hover:bg-brand hover:text-white shadow-lg transition-all">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="suggestionsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 pb-20"></div>
+        </div>
+    </div>
+
+    <!-- INFO PAGE OVERLAY -->
+    <div id="infoPageOverlay">
+        <div class="max-w-5xl mx-auto">
+            <button onclick="closeInfoPage()" class="mb-10 flex items-center gap-2 font-black uppercase text-xs text-brand hover:translate-x-[-5px] transition-all bg-brand/10 px-6 py-3 rounded-full">
+              <br> <br> <br> <br> <br>
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div id="infoPageContent" class="pb-20">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <main class="pt-20">
+        
+        <!-- HERO SLIDER SECTION -->
+        <section class="max-w-7xl mx-auto px-4 my-6 md:my-10">
+            <div class="slider-container shadow-2xl group border border-black/5 dark:border-white/5 relative">
+                
+                <div id="heroSlides" class="relative w-full h-full">
+                    <div class="w-full h-full flex items-center justify-center">
+                        <div class="text-center py-20">
+                            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-brand mb-4"></div>
+                            <p class="text-zinc-500 dark:text-zinc-400 font-bold">Loading hero banners...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-4 z-[10] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    <button onclick="changeHeroSlide(-1)" class="w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-brand backdrop-blur-md text-white rounded-full flex items-center justify-center transition-all pointer-events-auto shadow-lg">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button onclick="changeHeroSlide(1)" class="w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-brand backdrop-blur-md text-white rounded-full flex items-center justify-center transition-all pointer-events-auto shadow-lg">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Dots Indicators -->
+                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-[10]" id="heroDots">
+                    <!-- Dots will be added dynamically -->
+                </div>
+
+        </section>
+
+        <!-- WATCHLIST -->
+        <section id="watchlistSection" class="max-w-7xl mx-auto px-4 mb-20 hidden">
+            <h2 class="text-2xl md:text-4xl font-black border-l-8 border-brand pl-4 mb-10 uppercase italic">💫My<span class="text-brand">Picks</span></h2>
+            <div id="watchlistGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8"></div>
+        </section>
+
+        <!-- TRENDING -->
+        <section id="trending" class="max-w-7xl mx-auto px-4 mb-20">
+            <h2 class="text-2xl md:text-4xl font-black border-l-8 border-brand pl-4 mb-10 uppercase italic">
+                <span>Fan<span class="text-brand">Favourites🔥</span></span>
+                <span class="text-[10px] font-bold text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-4 py-2 rounded-full uppercase tracking-[0.2em]">Live</span>
+            </h2>
+            <div id="trendingGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <!-- API loaded content -->
+            </div>
+        </section>
+
+        <!-- SERIES GRID -->
+        <section id="series" class="max-w-7xl mx-auto px-4 mb-20">
+            <h2 class="text-2xl md:text-4xl font-black border-l-8 border-brand pl-4 mb-10 uppercase italic">🌟Spotlight<span class="text-brand">Series</span></h2>
+            <div id="seriesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <!-- API loaded series -->
+            </div>
+        </section>
+
+        <!-- MOVIES SECTION -->
+        <section id="movies" class="max-w-7xl mx-auto px-4 mb-32">
+            <h2 class="text-2xl md:text-4xl font-black border-l-8 border-accent pl-4 mb-10 uppercase italic">✨Blockbuster <span class="text-accent">Movies</span></h2>
+            <div id="movieGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <!-- API loaded movies -->
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="max-w-7xl mx-auto px-4 mb-32 reveal active">
+            <div class="bg-zinc-50 dark:bg-zinc-900/40 rounded-[3.5rem] px-6 py-12 md:p-20 border border-zinc-200 dark:border-zinc-800 shadow-2xl">
+                <div class="grid lg:grid-cols-2 gap-16 md:gap-24 items-start">
+                    <div class="w-full">
+                        <h2 class="text-4xl md:text-6xl font-black mb-6 uppercase italic">Get In <span class="text-brand">Touch</span></h2>
+                        <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-xl mb-12 leading-relaxed">Have any questions or need help? 🙂
+Feel free to contact the owner directly. We will do our best to respond to your queries as quickly as possible and provide you with the right support.</p>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-6 p-6 rounded-3xl bg-white dark:bg-zinc-950 border dark:border-zinc-800 shadow-xl group hover:border-brand transition-all">
+                                <div class="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center text-brand shrink-0">
+                                    <i class="fas fa-envelope text-xl md:text-2xl"></i>
+                                </div>
+                                <div><p class="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Support Email</p><span class="text-xs md:text-xl font-black break-all group-hover:text-brand">support@animefrontier.com</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-zinc-950 p-8 md:p-12 rounded-[3rem] shadow-2xl border dark:border-zinc-900 w-full">
+                        <form id="tgContactForm" class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <input type="text" id="formName" placeholder="Name" required class="w-full bg-zinc-50 dark:bg-zinc-900 border dark:border-zinc-800 rounded-2xl px-6 py-5 outline-none focus:border-brand text-sm dark:text-white font-bold transition-all">
+                                <input type="email" id="formEmail" placeholder="Email" required class="w-full bg-zinc-50 dark:bg-zinc-900 border dark:border-zinc-800 rounded-2xl px-6 py-5 outline-none focus:border-brand text-sm dark:text-white font-bold transition-all">
+                            </div>
+                            <textarea id="formMessage" rows="5" placeholder="Type your message..." required class="w-full bg-zinc-50 dark:bg-zinc-900 border dark:border-zinc-800 rounded-2xl px-6 py-5 outline-none focus:border-brand text-sm dark:text-white font-bold transition-all resize-none"></textarea>
+                            <button type="submit" id="formSubmitBtn" class="w-full bg-brand hover:bg-red-600 text-white font-black py-5 rounded-3xl shadow-2xl active:scale-95 transition-all text-sm md:text-lg uppercase italic tracking-widest">Send Message <i class="fas fa-paper-plane ml-2"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-20 border-t border-zinc-100 dark:border-zinc-900 text-center">
+        <span class="logo-font text-5xl md:text-8xl text-brand uppercase tracking-tighter">ANIME FRONTIER</span>
+        <div class="flex justify-center gap-10 my-10 text-zinc-400 relative z-10">
+            <a href="https://wa.me/message/LC4KXUHUEMZWA1" class="hover:text-brand transition-all transform hover:scale-125"><i class="fab fa-whatsapp text-3xl"></i></a>
+            <a href="https://www.facebook.com/Aryansingh000123" class="hover:text-brand transition-all transform hover:scale-125"><i class="fab fa-facebook text-3xl"></i></a>
+            <a href="https://youtube.com/@aryansingh-46?si=nbNyE72Rg9pa38a4" class="hover:text-brand transition-all transform hover:scale-125"><i class="fab fa-youtube text-3xl"></i></a>
+        </div>
+        <p class="text-zinc-500 text-xs font-black uppercase tracking-[0.4em] italic">© 2026 AnimeFrontier Elite Portal | All Rights Reserved</p>
+    </footer>
+
+    <!-- SELECTOR MODAL -->
+    <div id="selectorModal" class="fixed inset-0 z-[11000] hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-3xl">
+        <div class="bg-white dark:bg-zinc-900 p-8 md:p-14 rounded-[3.5rem] max-w-lg w-full shadow-2xl transition-all duration-500 transform scale-95 opacity-0" id="modalContent">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl md:text-4xl font-black uppercase italic dark:text-white" id="modalTitle">Menu</h3>
+                <button onclick="closeSelector()" class="text-zinc-500 hover:text-brand transition-all"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div id="seasonLinks" class="space-y-4 max-h-[180px] overflow-y-auto pr-2 mb-8 scroll-smooth"></div>
+            <div class="space-y-8 pt-8 border-t dark:border-zinc-800 text-center">
+                <!-- Trailer -->
+                <button id="modalTrailerBtn" class="w-full bg-brand text-white py-6 rounded-2xl font-black text-sm uppercase italic flex items-center justify-center gap-4 shadow-2xl active:scale-95 transition-all">
+                    <i class="fas fa-play text-xl"></i> Watch Trailer
+                </button>
+                <!-- Info & Watchlist -->
+                <div class="flex gap-4">
+                    <button id="modalInfoBtn" class="flex-1 bg-brand text-white transition-all py-5 rounded-2xl font-black text-[10px] md:text-xs uppercase italic flex items-center justify-center gap-3 active:scale-95 shadow-lg">
+                        <i class="fas fa-info-circle text-lg"></i> View Info
+                    </button>
+                    <button id="modalWatchlistBtn" class="flex-1 bg-brand text-white transition-all py-5 rounded-2xl font-black text-[10px] md:text-xs uppercase italic flex items-center justify-center gap-3 active:scale-95 shadow-lg">
+                        <i class="fas fa-bookmark text-lg"></i> Watchlist
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <button id="btnCR" class="platform-pill border-orange-500 text-orange-400">
+                        <i class="fas fa-play"></i>
+                        <span>Crunchiroll</span>
+                    </button>
+                    <button id="btnNF" class="platform-pill border-red-500 text-red-400">
+                        <i class="fas fa-film"></i>
+                        <span>Netflix</span>
+                    </button>
+                    <button id="btnHU" class="platform-pill border-green-500 text-green-400">
+                        <i class="fas fa-leaf"></i>
+                        <span>Hulu</span>
+                    </button>
+                    <button id="btnPV" class="platform-pill border-blue-500 text-blue-400">
+                        <i class="fas fa-video"></i>
+                        <span>Prime Video</span>
+                    </button>
+                    <button id="btnMAL" class="platform-pill border-sky-500 text-sky-400 col-span-2 sm:col-span-1">
+                        <i class="fas fa-list"></i>
+                        <span>MyAnimeList</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI FAB -->
+    <div class="fixed bottom-8 right-8 z-[8500] bot-float">
+        <span class="absolute -top-1 -right-1 flex h-4 w-4 z-[8501]">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-4 w-4 bg-brand border-2 border-white dark:border-zincDark shadow-sm"></span>
+        </span>
+        <button onclick="toggleAIChat()" class="w-16 h-16 bg-brand text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-90 transition-all border-2 border-white/20"><i class="fas fa-robot text-3xl"></i></button>
+    </div>
+
+    <!-- AI CHAT -->
+    <div id="aiChatWindow" class="fixed bg-white dark:bg-zinc-900 border dark:border-zinc-800 rounded-[2.5rem] shadow-2xl flex flex-col overflow-hidden">
+        <div class="bg-brand p-5 text-white flex justify-between items-center">
+            <div class="flex items-center gap-3"><i class="fas fa-robot text-lg"></i><span class="font-black text-xs uppercase italic tracking-widest">Frontier's AI</span></div>
+            <button onclick="toggleAIChat()" class="p-2 hover:bg-white/10 rounded-full transition-all"><i class="fas fa-times text-sm"></i></button>
+        </div>
+        <div id="chatMessages" class="flex-1 p-5 overflow-y-auto space-y-4 max-h-[350px] scroll-smooth italic font-bold text-xs"></div>
+        <div class="p-4 border-t dark:border-zinc-800 flex gap-2">
+            <input id="aiInput" type="text" placeholder="Type..." class="flex-1 bg-zinc-100 dark:bg-zinc-800 rounded-2xl px-5 py-3 text-xs outline-none dark:text-white font-bold transition-all border border-transparent focus:border-brand/30">
+            <button onclick="askAI()" class="bg-brand text-white w-12 h-12 rounded-2xl flex items-center justify-center active:scale-90 shadow-xl"><i class="fas fa-paper-plane text-xs"></i></button>
+        </div>
+    </div>
+
+    <!-- TRAILER MODAL -->
+    <div id="trailerModal" class="fixed inset-0 z-[12000] hidden flex items-center justify-center p-4 video-overlay">
+        <div class="relative w-full max-w-5xl aspect-video bg-black rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10">
+            <button onclick="closeTrailer()" class="absolute top-6 right-6 z-[12001] bg-black/60 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-brand transition-colors"><i class="fas fa-times text-xl"></i></button>
+            <div id="ytPlayerContainer" class="w-full h-full"></div>
+        </div>
+    </div>
+
+
+
+<!-- EPISODE PLAYER MODAL -->
+<div id="episodePlayerModal" class="fixed inset-0 z-[14000] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-3xl">
+    <div class="relative w-full max-w-5xl bg-black rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10">
+        <button onclick="closeEpisodePlayer()" class="absolute top-6 right-6 z-[14001] bg-black/60 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-brand transition-colors">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="p-6 bg-zinc-900 border-b border-white/10">
+            <h4 id="episodePlayerTitle" class="text-2xl font-black text-white uppercase italic" style="overflow-wrap: break-word; word-break: break-word; line-height: 1.2; padding-right: 3rem;"></h4>
+            <p id="episodePlayerDesc" class="text-zinc-400 text-sm mt-2" style="overflow-wrap: break-word; word-break: break-word;"></p>
+        </div>
+        <div id="episodePlayerContainer" class="w-full aspect-video bg-black">
+            <!-- Player will be loaded here -->
+        </div>
+        <div class="flex gap-4 p-6 bg-zinc-900">
+            <button id="playTrailerBtn" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-black text-sm uppercase flex items-center justify-center gap-3">
+                <i class="fas fa-play-circle"></i> Watch Trailer
+            </button>
+            <button id="playEpisodeBtn" class="flex-1 bg-brand hover:bg-red-600 text-white py-4 rounded-xl font-black text-sm uppercase flex items-center justify-center gap-3">
+                <i class="fas fa-film"></i> Watch Episode
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Login Modal -->
+<div id="loginModal" class="fixed inset-0 z-[20000] flex items-center justify-center p-4 bg-black/90 backdrop-blur-3xl">
+    <div class="bg-white dark:bg-zinc-900 p-8 md:p-14 rounded-[3.5rem] max-w-md w-full shadow-2xl">
+        <div class="text-center mb-8">
+            <div class="w-20 h-20 mx-auto mb-4 bg-brand rounded-full flex items-center justify-center">
+                <i class="fas fa-user text-3xl text-white"></i>
+            </div>
+            <h3 class="text-3xl font-black uppercase italic dark:text-white">Welcome Back!</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm mt-2">Login to continue your anime journey</p>
+        </div>
+        
+        <form id="loginForm" class="space-y-6">
+            <div>
+                <label class="block text-xs font-bold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-widest">Full Name</label>
+                <input type="text" id="loginName" placeholder="Enter your name" required 
+                       class="w-full bg-zinc-50 dark:bg-zinc-800 border dark:border-zinc-700 rounded-2xl px-6 py-4 outline-none focus:border-brand dark:text-white font-bold transition-all">
+            </div>
+            
+            <div>
+                <label class="block text-xs font-bold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-widest">Email</label>
+                <input type="email" id="loginEmail" placeholder="your@email.com" 
+                       class="w-full bg-zinc-50 dark:bg-zinc-800 border dark:border-zinc-700 rounded-2xl px-6 py-4 outline-none focus:border-brand dark:text-white font-bold transition-all">
+                <p class="text-xs text-zinc-400 mt-1">Any email format accepted</p>
+            </div>
+            
+            <div>
+                <label class="block text-xs font-bold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-widest">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter password" required 
+                       class="w-full bg-zinc-50 dark:bg-zinc-800 border dark:border-zinc-700 rounded-2xl px-6 py-4 outline-none focus:border-brand dark:text-white font-bold transition-all">
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="rememberMe" class="rounded">
+                <label for="rememberMe" class="text-sm text-zinc-500 dark:text-zinc-400">Remember me</label>
+            </div>
+            
+            <button type="submit" 
+                    class="w-full bg-brand hover:bg-red-600 text-white font-black py-4 rounded-3xl shadow-2xl transition-all text-lg uppercase italic tracking-widest">
+                Login to Frontier
+            </button>
+            
+            <p class="text-center text-xs text-zinc-500">
+                By logging in, you agree to our <a href="#" class="text-brand hover:underline">Terms</a>
+            </p>
+        </form>
+        
+
+    </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>

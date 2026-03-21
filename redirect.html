@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #09090b 0%, #121214 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .redirect-container {
+            text-align: center;
+            color: white;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 20px;
+            border: 3px solid rgba(255, 75, 43, 0.3);
+            border-radius: 50%;
+            border-top-color: #ff4b2b;
+            animation: spin 1s linear infinite;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff4b2b, #ffb400);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+        }
+        
+        p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        .dots {
+            margin-top: 10px;
+            font-size: 24px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="loader"></div>
+        <h1>ANIMEFRONTIER</h1>
+        <p>Initializing Elite Portal</p>
+        <div class="dots">
+            <span class="blink">.</span>
+            <span class="blink" style="animation-delay: 0.2s">.</span>
+            <span class="blink" style="animation-delay: 0.4s">.</span>
+        </div>
+    </div>
+    
+    <script>
+        // Add a small delay before showing opening animation
+        setTimeout(() => {
+            window.location.href = 'opening-animation.html';
+        }, 1500);
+    </script>
+</body>
+</html>
